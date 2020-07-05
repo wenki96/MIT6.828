@@ -471,7 +471,7 @@ Welcome to the JOS kernel monitor!
 
 在编译内核的时候，我们可以看到加了 `-Wall -Wno-format -Wno-unused -Werror -gstabs -m32`，通过-gstabs参数在可执行文件中加了调试信息。
 
-常见的stabs和stabn的定义如下(symble table)：
+常见的stabs和stabn的定义如下(symbol table)：
 
 ```
 .stabs "string",type,other,desc,value
