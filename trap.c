@@ -14,6 +14,8 @@ extern uint vectors[];  // in vectors.S: array of 256 entry pointers
 struct spinlock tickslock;
 uint ticks;
 
+extern int mappages(pde_t *pgdir, void *va, uint size, uint pa, int perm);
+
 void
 tvinit(void)
 {
@@ -77,6 +79,16 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
+  case T_PGFLT: //14
+  {
+    char *mem = kalloc();
+    if(mem){
+      uint va = PGROUNDDOWN(rcr2());
+      memset(mem, 0, PGSIZE);
+      if(mappages(myproc()->pgdir, (char*)va, PGSIZE, V2P(mem),  PTE_W|PTE_U) >=0 )
+        break;
+    }
+  }
 
   //PAGEBREAK: 13
   default:
