@@ -543,22 +543,22 @@ trap_dispatch(struct Trapframe *tf)
 
 
 **System Call Handling Routine (User)**
-• User calls a function
-	• cprintf -> calls sys_cputs()
-• sys_cputs() at user code will call syscall() (lib/syscall.c)
-	• This syscall() is at lib/syscall.c
-	• Set args in the register and then
-• int $0x30
+- User calls a function
+	-  cprintf -> calls sys_cputs()
+- sys_cputs() at user code will call syscall() (lib/syscall.c)
+	- This syscall() is at lib/syscall.c
+	- Set args in the register and then
+- int $0x30
 
 **System Call Handling Routine (Kernel)**
-• CPU gets software interrupt
-• TRAPHANDLER_NOEC(T_SYSCALL…)
-• _alltraps()
-• trap()
-• trap_dispatch()
-	• Get registers that store arguments from struct Trapframe *tf
-	• Call syscall() using those registers
-		• This syscall() is at kern/syscall.c
+- CPU gets software interrupt
+- TRAPHANDLER_NOEC(T_SYSCALL…)
+-  _alltraps()
+- trap()
+- trap_dispatch()
+	- Get registers that store arguments from struct Trapframe *tf
+	- Call syscall() using those registers
+		- This syscall() is at kern/syscall.c
 
 
 
