@@ -562,7 +562,7 @@ trap_dispatch(struct Trapframe *tf)
 
 
 
-**在捋顺逻辑的过程中有一个困惑了很久的问题，观察到 kern/syscall.c 中的 sys_cputs，它调用了 cprintf，这个调用其实就是为了完成输出的功能，但是cprintf不是要调用sys_cputs系统调用吗，这不是套娃了吗？其实并不是我们要注意，当我们程序运行到这里时，系统已经工作在内核态了，调用的是处于kernel目录下的cprintf，而在用户态调用的cprintf在lib目录下。可以得出过程是/lib/cprintf->sys_cputs->int 0x30->sys_cputs->/kern/cprintf->(monitor)。**
+**在捋顺逻辑的过程中有一个困惑了很久的问题，观察到 kern/syscall.c 中的 sys_cputs，它调用了 cprintf，这个调用其实就是为了完成输出的功能，但是cprintf不是要调用sys_cputs系统调用吗，这不是套娃了吗？其实并不是我们要注意，当我们程序运行到这里时，系统已经工作在内核态了，调用的是处于kernel目录下的cprintf，而在用户态调用的cprintf在lib目录下。可以得出过程是/lib/cprintf->/lib/syscall(sys_cputs)->int 0x30->/kern/syscall(sys_cputs)->/kern/cprintf->(monitor)。**
 
 所以剩下的就是我们如何在 kern/syscall.c 中的 syscall() 函数中正确的调用 sys_cputs 函数了，当然 kern/syscall.c 中其他的函数也能完成这个功能。所以我们必须根据触发这个系统调用的指令到底想调用哪个系统调用来确定我们该调用哪个函数。
 
