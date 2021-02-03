@@ -1,4 +1,3 @@
-Work copid from https://github.com/shishujuan. I'm too lazy, and just fix some bugs from it.
 
 ```
 running JOS: (1.9s)
